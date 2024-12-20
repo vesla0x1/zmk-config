@@ -32,6 +32,13 @@
             bindings = <&kp P>, <&kp PSCRN>;
             mods = <(MOD_LGUI)>;
         };
+
+	tog_on: toggle_layer_on_only {
+            compatible = "zmk,behavior-toggle-layer";
+            #binding-cells = <1>;
+            display-name = "Toggle Layer On";
+            toggle-mode = "on";
+        };
     };
 
     macros {
@@ -46,24 +53,6 @@
         };
     };
 
-    combos {
-        compatible = "zmk,combos";
-        combo_tog1 {
-            timeout-ms = <100>;
-            key-positions = <37 37>;
-            bindings = <&tog 1>;
-        };
-        combo_tog2 {
-            timeout-ms = <100>;
-            key-positions = <40 40>;
-            bindings = <&tog 2>;
-        };
-        combo_cap {
-            timeout-ms = <100>;
-            key-positions = <12 12>;
-            bindings = <&kp CAPS>;
-        };
-    };
     keymap {
         compatible = "zmk,keymap";
 
@@ -91,7 +80,7 @@
            &kp GRAVE  &kp N1 &kp N2   &kp N3 &kp N4 &kp N5       &kp N6   &kp N7   &kp N8 &kp N9    &kp N0   &kp DEL
            &kp LSHIFT &trans &kp HOME &trans &trans &kp END      &kp LEFT &kp DOWN &kp UP &kp RIGHT &kp LBKT &kp RBKT
            &kp LCTRL  &trans &trans   &trans &trans &trans       &trans   &trans   &trans &trans    &trans   &trans
-                                              &trans &trans &kp SPACE    &kp RET  &trans   &trans
+                                      &trans &tog 1 &kp SPACE    &kp RET  &tog_on  &trans
         >;
         };
         
@@ -105,7 +94,7 @@
            &kp TAB    &kp EXCL &kp AT &kp HASH &kp DOLLAR &kp PRCNT          &kp CARET     &kp AMPS       &kp STAR   &kp LPAR  &kp RPAR  &trans
            &kp LSHIFT &trans   &trans &trans   &trans     &trans             &trans        &trans         &trans     &trans    &kp MINUS &kp EQUAL 
            &kp LCTRL  &trans   &trans &tilde_c &trans     &trans             &bt BT_SEL 0  &bt BT_SEL 1   &trans     &trans    &trans    &kp BSLH
-                                      &trans   &trans     &trans             &trans        &trans         &bt BT_CLR 
+                                      &trans   &tog_on    &trans             &trans        &tog 2         &bt BT_CLR 
         >;
         };
     };
