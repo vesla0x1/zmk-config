@@ -10,18 +10,20 @@
 
 / {
     behaviors {
+	ht_tp: homerow_mods {
+            compatible = "zmk,behavior-hold-tap";
+            #binding-cells = <2>;
+            tapping-term-ms = <250>;
+            quick-tap-ms = <0>;
+            flavor = "tap-preferred";
+            bindings = <&kp>, <&kp>;
+        };
+
         sqt_esc: sqt_escape {
             compatible = "zmk,behavior-mod-morph";
             #binding-cells = <0>;
             bindings = <&kp SQT>, <&kp ESC>;
             mods = <(MOD_LCTL)>;
-        };
-
-        bspc_del: backspace_delete {
-            compatible = "zmk,behavior-mod-morph";
-            #binding-cells = <0>;
-            bindings = <&kp BACKSPACE>, <&kp DELETE>;
-            mods = <(MOD_LSFT|MOD_RSFT)>;
         };
 
         tab_tilde: tab_tilde {
@@ -37,43 +39,43 @@
 
         default_layer {
         // -----------------------------------------------------------------------------------------
-        // |  TAB |  Q  |  W  |  E  |  R  |  T  |   |  Y  |  U   |  I  |  O  |  P  | BSPC  |
-        // | SHFT |  A  |  S  |  D  |  F  |  G  |   |  H  |  J   |  K  |  L  |  ;  |  '    |
-        // | CTRL |  Z  |  X  |  C  |  V  |  B  |   |  N  |  M   |  ,  |  .  |  /  | SHIFT |
+        // |  TAB |  Q  |  W  |  E  |  R  |  T  |   |  Y  |  U   |  I  |  O  |  P  | BSPC      |
+        // | SHFT |  A  |  S  |  D  |  F  |  G  |   |  H  |  J   |  K  |  L  |  ;  |  '        |
+        // | CTRL |  Z  |  X  |  C  |  V  |  B  |   |  N  |  M   |  ,  |  .  |  /  | ESC/SHIFT |
         //                    | GUI | LWR | SPC |   | ENT | RSE  | ALT |
         bindings = <
-           &tab_tilde &kp Q &kp W    &kp E &kp R &kp T   &kp Y   &kp U   &kp I     &kp O   &kp P    &bspc_del
+           &tab_tilde &kp Q &kp W    &kp E &kp R &kp T   &kp Y   &kp U   &kp I     &kp O   &kp P    &kp BACKSPACE
            &kp LSHIFT &kp A &kp S    &kp D &kp F &kp G   &kp H   &kp J   &kp K     &kp L   &kp SEMI &sqt_esc
-           &kp LCTRL  &kp Z &kp X    &kp C &kp V &kp B   &kp N   &kp M   &kp COMMA &kp DOT &kp FSLH &kp RSHIFT
+           &kp LCTRL  &kp Z &kp X    &kp C &kp V &kp B   &kp N   &kp M   &kp COMMA &kp DOT &kp FSLH &ht_tp RSHIFT ESC
                             &kp LGUI &mo 1 &kp SPACE     &kp RET &mo 2   &kp RALT
         >;
         };
 
         lower_layer {
         // -----------------------------------------------------------------------------------------
-        // |  TAB |  1  |   2  |  3     |  4  |  5  |   |  6  |  7  |  8  |  9  |  0  | BSPC_DEL |
-        // | SHFT |     | HOME |        |     | END |   | LFT | DWN |  UP | RGT |     | BT1      |
-        // | CTRL |     |      |        |     |     |   |     |     |     |     |     | BT2      |
-        //                     | BT_CLR |     | SPC |   | ENT |     | ALT |
+        // | GRAVE    |  1  |   2  |  3  |  4  |  5  |   |  6  |  7  |  8  |  9  |  0  | DEL |
+        // | SHFT     |     | HOME |     |     | END |   | LFT | DWN |  UP | RGT |  [  |  ]  |
+        // | CTRL/"\" |     |      |     |     |     |   |     |     |     |     |     |     |
+        //                         |     |     | SPC |   | ENT |     | ALT |
         bindings = <
-           &kp TAB    &kp N1       &kp N2       &kp N3       &kp N4       &kp N5         &kp N6   &kp N7   &kp N8 &kp N9    &kp N0 &bspc_del
-           &kp LSHIFT &trans       &kp HOME     &trans       &trans       &kp END        &kp LEFT &kp DOWN &kp UP &kp RIGHT &trans &bt BT_SEL 0
-           &kp LCTRL  &trans       &trans       &trans       &trans       &trans         &trans   &trans   &trans &trans    &trans &bt BT_SEL 1
-                                                &bt BT_CLR   &trans       &kp SPACE      &kp RET  &trans   &kp LALT
+           &kp GRAVE          &kp N1 &kp N2   &kp N3 &kp N4 &kp N5       &kp N6   &kp N7   &kp N8 &kp N9    &kp N0   &kp DEL
+           &kp LSHIFT         &trans &kp HOME &trans &trans &kp END      &kp LEFT &kp DOWN &kp UP &kp RIGHT &kp LBKT &kp RBKT
+           &ht_tp LCTRL BSLH  &trans &trans   &trans &trans &trans       &trans   &trans   &trans &trans    &trans   &trans
+                                              &trans &trans &kp SPACE    &kp RET  &trans   &kp LALT
         >;
         };
         
         raise_layer {
         // -----------------------------------------------------------------------------------------
-        // |  TAB |  !  |  @  |  #  |  $  |  %  |   |  ^  |  &  |  *  |  (  |  )  | DEL  |
-        // | SHFT |     |     |     |     |     |   |  -  |  =  |  [  |  ]  |  \  |  `   |
-        // | CTRL |     |     |     |     |     |   |  _  |  +  |  {  |  }  | "|" |  ~   |
-        //                    | GUI |     | SPC |   | ENT |     | ALT |
+        // |  TAB |     |     |     |     |     |   |     |     |        |  -  |  =  |    |
+        // | SHFT |     |     |     |     |     |   |     |     |        |     |     |  \ |
+        // | CTRL |     |     |     |     |     |   | BT1 | BT2 |        |     |     |    |
+        //                    |     |     |     |   |     |     | BT_CLR |
         bindings = <
-           &kp  TAB  &kp EXCL &kp AT &kp HASH &kp DLLR &kp PRCNT   &kp CARET &kp AMPS  &kp ASTRK &kp LPAR &kp RPAR &bspc_del
-           &kp LSHIFT &trans  &trans &trans   &trans   &trans      &kp MINUS &kp EQUAL &kp LBKT  &kp RBKT &kp BSLH &kp GRAVE
-           &kp LCTRL &trans   &trans &trans   &trans   &trans      &kp UNDER &kp PLUS  &kp LBRC  &kp RBRC &kp PIPE &kp TILDE
-                                     &kp LGUI &trans   &kp SPACE   &kp RET   &trans    &kp LALT
+           &kp TAB    &trans &trans &trans &trans &trans   &trans        &trans       &trans     &kp MINUS &kp EQUAL &trans
+           &kp LSHIFT &trans &trans &trans &trans &trans   &trans        &trans       &trans     &trans    &trans    &kp BSLH
+           &kp LCTRL  &trans &trans &trans &trans &trans   &bt BT_SEL 0  &bt BT_SEL 1 &trans     &trans    &trans    &trans
+                                    &trans &trans &trans   &trans        &trans       &bt BT_CLR 
         >;
         };
     };
